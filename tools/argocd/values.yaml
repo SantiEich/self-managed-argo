@@ -13,7 +13,9 @@ argo-cd:
       enabled: true
     config:
       params:
+        dexserver.disable.tls: true
         server.insecure: true
+        server.enable.proxy.extension: true
       exec.enabled: true
       resource.exclusions: |
         - apiGroups:
@@ -28,6 +30,8 @@ argo-cd:
     ingress:
       enabled: true
       ingressClassName: ""
+      hosts:
+        - argocd.local
       # extraHosts:
       #   - argocd.local
       paths:
