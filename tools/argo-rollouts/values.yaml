@@ -1,3 +1,4 @@
-dashboard:
-  enabled: true
-  readonly: false
+argo-rollouts:
+  dashboard:
+    enabled: true
+    readonly: false
