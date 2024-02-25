@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: helm-blue-green
+  name: blue-green
   namespace: argocd
 spec:
   project: default
@@ -9,9 +9,12 @@ spec:
     namespace: apps
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://github.com/argoproj/argo-rollouts
+    repoURL: https://github.com/SantiEeich/self-managed-argo
     targetRevision: HEAD
-    path: "examples/helm-blue-green"
+    path: "apps/blue-green"
+    helm:
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated:
       prune: false # Specifies if resources should be pruned during auto-syncing ( false by default ).
