@@ -9,7 +9,7 @@ spec:
     namespace: apps
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://github.com/SantiEeich/self-managed-argo
+    repoURL: https://github.com/SantiEich/self-managed-argo
     targetRevision: HEAD
     path: "apps/blue-green"
     helm:
