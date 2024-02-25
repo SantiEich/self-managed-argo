@@ -12,8 +12,6 @@ argo-cd:
     config:
     ingress:
       enabled: true
-      annotations: {}
-      labels: {}
       ingressClassName: ""
       extraHosts:
         - argocd.local
