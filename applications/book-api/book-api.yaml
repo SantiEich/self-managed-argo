@@ -9,7 +9,7 @@ spec:
     namespace: applications
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://github.com/JuanWigg/go-book-api
+    repoURL: https://github.com/SantiEich/go-book-api
     targetRevision: HEAD
     path: kubernetes
   syncPolicy:
