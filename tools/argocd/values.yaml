@@ -1,6 +1,26 @@
 argo-cd:
   global:
     domain: argocd.local
+
+  configs:
+    cm:
+      exec.enabled: true
+    params:
+      dexserver.disable.tls: true
+      server.insecure: true
+      server.enable.proxy.extension: true
+    exec.enabled: true
+    resource.exclusions: |
+      - apiGroups:
+          - kyverno.io
+        kinds:
+          - AdmissionReport
+          - BackgroundScanReport
+          - ClusterAdmissionReport
+          - ClusterBackgroundScanReport
+        clusters:
+          - '*'
+
   redis-ha:
     enabled: false
 
@@ -11,22 +31,6 @@ argo-cd:
     replicas: 1
     extensions:
       enabled: true
-    config:
-      params:
-        dexserver.disable.tls: true
-        server.insecure: true
-        server.enable.proxy.extension: true
-      exec.enabled: true
-      resource.exclusions: |
-        - apiGroups:
-            - kyverno.io
-          kinds:
-            - AdmissionReport
-            - BackgroundScanReport
-            - ClusterAdmissionReport
-            - ClusterBackgroundScanReport
-          clusters:
-            - '*'
     ingress:
       enabled: true
       ingressClassName: ""
