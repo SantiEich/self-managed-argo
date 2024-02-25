@@ -12,6 +12,8 @@ argo-cd:
     extensions:
       enabled: true
     config:
+      params:
+        server.insecure: true
       exec.enabled: true
       resource.exclusions: |
         - apiGroups:
