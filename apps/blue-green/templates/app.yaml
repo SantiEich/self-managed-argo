@@ -1,63 +1,37 @@
-# This example demonstrates a Rollout using the blue-green update strategy, which contains a manual
-# gate before promoting the new stack.
+# This example demonstrates a Rollout using the canary update strategy with a customized rollout
+# plan. The prescribed steps initially sets a canary weight of 20%, then pauses indefinitely. Once
+# resumed, the rollout performs a gradual, automated 20% weight increase until it reaches 100%.
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: rollout-bluegreen
+  name: rollout-canary
 spec:
-  replicas: 2
+  replicas: 5
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: rollout-bluegreen
+      app: rollout-canary
   template:
     metadata:
       labels:
-        app: rollout-bluegreen
+        app: rollout-canary
     spec:
       containers:
       - name: rollouts-demo
-        image: nginx:1.19.1
+        image: argoproj/rollouts-demo:blue
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
   strategy:
-    blueGreen: 
-      # activeService specifies the service to update with the new template hash at time of promotion.
-      # This field is mandatory for the blueGreen update strategy.
-      activeService: rollout-bluegreen-active
-      # previewService specifies the service to update with the new template hash before promotion.
-      # This allows the preview stack to be reachable without serving production traffic.
-      # This field is optional.
-      previewService: rollout-bluegreen-preview
-      # autoPromotionEnabled disables automated promotion of the new stack by pausing the rollout
-      # immediately before the promotion. If omitted, the default behavior is to promote the new
-      # stack as soon as the ReplicaSet are completely ready/available.
-      # Rollouts can be resumed using: `kubectl argo rollouts promote ROLLOUT`
-      autoPromotionEnabled: false
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: rollout-bluegreen-active
-spec:
-  selector:
-    app: rollout-bluegreen
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: rollout-bluegreen-preview
-spec:
-  selector:
-    app: rollout-bluegreen
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+    canary:
+      steps:
+      - setWeight: 20
+      # The following pause step will pause the rollout indefinitely until manually resumed.
+      # Rollouts can be manually resumed by running `kubectl argo rollouts promote ROLLOUT`
+      - pause: {}
+      - setWeight: 40
+      - pause: {duration: 40s}
+      - setWeight: 60
+      - pause: {duration: 20s}
+      - setWeight: 80
+      - pause: {duration: 20s}
