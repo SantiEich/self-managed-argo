@@ -13,7 +13,6 @@ spec:
     targetRevision: HEAD
     path: "tools/argo-rollouts"
     helm:
-      releaseName: argo-rollouts
       valueFiles:
         - values.yaml
   syncPolicy:
