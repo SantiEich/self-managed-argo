@@ -6,7 +6,7 @@ argo-cd:
     replicas: 1
 
   server:
-    replicas: 2
+    replicas: 1
 
   repoServer:
     replicas: 1
