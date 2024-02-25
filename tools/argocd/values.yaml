@@ -15,7 +15,7 @@ argo-cd:
       annotations: {}
       labels: {}
       ingressClassName: ""
-      hosts:
+      extraHosts:
         - argocd.local
       paths:
         - /
