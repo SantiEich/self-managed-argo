@@ -7,6 +7,31 @@ argo-cd:
 
   server:
     replicas: 1
+    extensions:
+      enabled: true
+    config:
+    ingress:
+      enabled: true
+      annotations: {}
+      labels: {}
+      ingressClassName: ""
+      hosts:
+        - argocd.local
+      paths:
+        - /
+      pathType: Prefix
+      extraPaths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: argocd-server
+              port:
+                number: 80
+      tls:
+        []
+      https: false
+    
 
   repoServer:
     replicas: 1
