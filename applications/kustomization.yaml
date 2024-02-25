@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
 - argo-rollouts
 - argocd
-- helm-blue-green
+- blue-green
