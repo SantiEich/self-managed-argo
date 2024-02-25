@@ -12,6 +12,17 @@ argo-cd:
     extensions:
       enabled: true
     config:
+      exec.enabled: true
+      resource.exclusions: |
+        - apiGroups:
+            - kyverno.io
+          kinds:
+            - AdmissionReport
+            - BackgroundScanReport
+            - ClusterAdmissionReport
+            - ClusterBackgroundScanReport
+          clusters:
+            - '*'
     ingress:
       enabled: true
       ingressClassName: ""
